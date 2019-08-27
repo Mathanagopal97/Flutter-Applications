@@ -24,10 +24,10 @@ class _UserTransactionsState extends State<UserTransactions> {
       date: DateTime.now(),
     ),
   ];
-  void _addNewTransaction(String txtitle, String txamount) {
+  void _addNewTransaction(String txtitle, double txamount) {
     var tx = Transaction(
       title: txtitle,
-      amount: double.parse(txamount),
+      amount: txamount,
       date: DateTime.now(),
       id: DateTime.now().toIso8601String(),
     );
