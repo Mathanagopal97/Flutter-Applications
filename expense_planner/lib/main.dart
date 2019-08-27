@@ -1,6 +1,7 @@
-import './widgets/user_transactions.dart';
-
 import 'package:flutter/material.dart';
+import './widgets/new_transactions.dart';
+import './models/transaction.dart';
+import 'widgets/transactions_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,15 +15,58 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  String titleInput;
-  String amountInput;
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _userTransactions = [
+    Transaction(
+      id: 't1',
+      amount: 100.99,
+      title: 'Shoes',
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      amount: 200.99,
+      title: 'Grocery',
+      date: DateTime.now(),
+    ),
+  ];
+  void _addNewTransaction(String txtitle, double txamount) {
+    var tx = Transaction(
+      title: txtitle,
+      amount: txamount,
+      date: DateTime.now(),
+      id: DateTime.now().toIso8601String(),
+    );
+    setState(() {
+      _userTransactions.add(tx);
+    });
+  }
+
+  void _startAddTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (builderCtx) {
+        return NewTransaction(_addNewTransaction);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Expense Planner App'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _startAddTransaction(context),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -37,9 +81,14 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            UserTransactions(),
+            TransactionList(_userTransactions),
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _startAddTransaction(context),
       ),
     );
   }
