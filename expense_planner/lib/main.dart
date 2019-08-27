@@ -85,7 +85,7 @@ class MyHomePage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          DateFormat().format(tx.date),
+                          DateFormat.yMMMMd("en_US").format(tx.date),
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 10,
