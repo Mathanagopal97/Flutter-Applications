@@ -9,7 +9,9 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text('₹${amount.toStringAsFixed(0)}'),
+        FittedBox(
+          child: Text('₹${amount.toStringAsFixed(0)}'),
+        ),
         SizedBox(
           height: 4,
         ),
@@ -29,7 +31,7 @@ class ChartBar extends StatelessWidget {
                 heightFactor: percentage,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.red,
+                    color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
