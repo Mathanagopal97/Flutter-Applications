@@ -52,14 +52,14 @@ class TransactionList extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Date: ${DateFormat.yMMMMd().format(transactions[index].date)}',
+                          '${DateFormat.yMMMMd().format(transactions[index].date)}',
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Time: ${DateFormat.jm().format(transactions[index].date)}',
-                        ),
+                        // SizedBox(
+                        //   width: 10,
+                        // ),
+                        // Text(
+                        //   '${DateFormat.Hm().format(transactions[index].date)}',
+                        // ),
                       ],
                     ),
                   ),
