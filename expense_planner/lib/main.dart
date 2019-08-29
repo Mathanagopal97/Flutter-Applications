@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './widgets/new_transactions.dart';
 import './models/transaction.dart';
 import 'widgets/transactions_list.dart';
+import 'package:uuid/uuid.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
         accentColor: Colors.amber,
+        errorColor: Colors.red,
         fontFamily: 'QuickSand',
         textTheme: ThemeData.light().textTheme.copyWith(
               title: TextStyle(
@@ -60,14 +62,23 @@ class _MyHomePageState extends State<MyHomePage> {
     // ),
   ];
   void _addNewTransaction(String txtitle, double txamount, DateTime transcationDate) {
+    var uuid = new Uuid();
     var tx = Transaction(
       title: txtitle,
       amount: txamount,
       date:transcationDate,
-      id: DateTime.now().toIso8601String(),
+      id: uuid.v1(),
     );
     setState(() {
       _userTransactions.add(tx);
+    });
+  }
+
+  void _deleteTransaction(String id){
+    setState(() {
+     _userTransactions.removeWhere((tx){
+       return tx.id == id;
+     });
     });
   }
 
@@ -108,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions,_deleteTransaction),
           ],
         ),
       ),
