@@ -61,12 +61,13 @@ class _MyHomePageState extends State<MyHomePage> {
     //   date: DateTime.now(),
     // ),
   ];
-  void _addNewTransaction(String txtitle, double txamount, DateTime transcationDate) {
+  void _addNewTransaction(
+      String txtitle, double txamount, DateTime transcationDate) {
     var uuid = new Uuid();
     var tx = Transaction(
       title: txtitle,
       amount: txamount,
-      date:transcationDate,
+      date: transcationDate,
       id: uuid.v1(),
     );
     setState(() {
@@ -74,11 +75,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _deleteTransaction(String id){
+  void _deleteTransaction(String id) {
     setState(() {
-     _userTransactions.removeWhere((tx){
-       return tx.id == id;
-     });
+      _userTransactions.removeWhere((tx) {
+        return tx.id == id;
+      });
     });
   }
 
@@ -103,23 +104,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBarWidget = AppBar(
+      title: Text('Expense Planner App'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddTransaction(context),
+        ),
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Expense Planner App'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddTransaction(context),
-          ),
-        ],
-      ),
+      appBar: appBarWidget,
       body: SingleChildScrollView(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_userTransactions,_deleteTransaction),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      appBarWidget.preferredSize.height) *
+                  0.4,
+              child: Chart(_recentTransactions),
+            ),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      appBarWidget.preferredSize.height) *
+                  0.6,
+              child: TransactionList(_userTransactions, _deleteTransaction),
+            ),
           ],
         ),
       ),
