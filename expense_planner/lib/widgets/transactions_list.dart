@@ -6,8 +6,9 @@ import '../models/transaction.dart';
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
   final Function _deleteTransaction;
+  final isLandscape;
 
-  TransactionList(this.transactions, this._deleteTransaction);
+  TransactionList(this.transactions, this._deleteTransaction, this.isLandscape);
 
   @override
   Widget build(BuildContext context) {
@@ -49,27 +50,52 @@ class TransactionList extends StatelessWidget {
                     transactions[index].title,
                     style: Theme.of(context).textTheme.title,
                   ),
-                  subtitle: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        '${DateFormat.yMMMMd().format(transactions[index].date)}',
-                      ),
-                      // SizedBox(
-                      //   width: 10,
-                      // ),
-                      // Text(
-                      //   '${DateFormat.Hm().format(transactions[index].date)}',
-                      // ),
-                    ],
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete_forever),
-                    color: Theme.of(context).errorColor,
-                    onPressed: () {
-                      _deleteTransaction(transactions[index].id);
-                    },
-                  ),
+                  subtitle: isLandscape
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              '${DateFormat.yMMMMd().format(transactions[index].date)}',
+                            ),
+                            // SizedBox(
+                            //   width: 320,
+                            // ),
+                            // Text(
+                            //   'Delete',
+                            // ),
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              '${DateFormat.yMMMMd().format(transactions[index].date)}',
+                            ),
+
+                            //   SizedBox(
+                            //     width: 10,
+                            //   ),
+                            // Text(
+                            //   '${DateFormat.Hm().format(transactions[index].date)}',
+                            // ),
+                          ],
+                        ),
+                  trailing: isLandscape
+                      ? FlatButton.icon(
+                          icon: Icon(Icons.delete_forever),
+                          label: Text('Delete'),
+                          textColor: Theme.of(context).errorColor,
+                          onPressed: () {
+                            _deleteTransaction(transactions[index].id);
+                          },
+                        )
+                      : IconButton(
+                          icon: Icon(Icons.delete_forever),
+                          color: Theme.of(context).errorColor,
+                          onPressed: () {
+                            _deleteTransaction(transactions[index].id);
+                          },
+                        ),
                 ),
               );
             },

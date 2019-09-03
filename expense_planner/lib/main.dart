@@ -127,8 +127,15 @@ class _MyHomePageState extends State<MyHomePage> {
       height: (MediaQuery.of(context).size.height -
               MediaQuery.of(context).padding.top -
               appBarWidget.preferredSize.height) *
+          0.9,
+      child: TransactionList(_userTransactions, _deleteTransaction, isLandscape),
+    );
+    final anotxListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+              MediaQuery.of(context).padding.top -
+              appBarWidget.preferredSize.height) *
           0.7,
-      child: TransactionList(_userTransactions, _deleteTransaction),
+      child: TransactionList(_userTransactions, _deleteTransaction, isLandscape),
     );
     return Scaffold(
       appBar: appBarWidget,
@@ -160,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     0.3,
                 child: Chart(_recentTransactions),
               ),
-            if (!isLandscape) txListWidget,
+            if (!isLandscape) anotxListWidget,
             if (isLandscape)
               _showChart
                   ? Container(
